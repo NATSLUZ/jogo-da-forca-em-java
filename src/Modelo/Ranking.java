@@ -1,4 +1,4 @@
-package Jogo;
+package Modelo;
 
 public class Ranking {
 }

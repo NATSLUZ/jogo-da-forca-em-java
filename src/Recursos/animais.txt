@@ -1,0 +1,4 @@
+cachorro
+tamandua
+galinha
+tatu

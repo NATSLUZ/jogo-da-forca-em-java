@@ -1,6 +1,9 @@
-package Jogo;
-
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +11,27 @@ public class Main {
 
         //JOGO DA FORCA
 
-        String palavra = "melancia";
+
+        String filePath = "animais.txt";
+        ArrayList<String> animais = new ArrayList<>();
+
+        try(BufferedReader reader= new BufferedReader(new FileReader(filePath))){
+            String linha;
+            while ((linha = reader.readLine()) != null ){
+                animais.add(linha.trim());
+            }
+        }
+        catch(FileNotFoundException e){
+             System.out.println("Arquivo não encontrado");
+        }
+        catch (IOException e){
+            System.out.println("Erro inesperado");
+        }
+
+        Random random = new Random();
+        String palavra = animais.get(random.nextInt(animais.size()));
+
+
         Scanner scanner = new Scanner(System.in);
         ArrayList<Character> estadoPalavra = new ArrayList<>();
         int respostasErradas =0;
