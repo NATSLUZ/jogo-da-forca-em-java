@@ -1,4 +1,4 @@
-package Modelo;
+package modelo;
 
 public enum Tema {
     COMIDAS("comidas.txt","Pratos, frutas ou legumes"),
