@@ -1,139 +1,94 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
+import leitor.LeitorPalavrasArquivo;
+import modelo.Rodada;
+import modelo.Tema;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-        //JOGO DA FORCA
-
-
-        String filePath = "animais.txt";
-        ArrayList<String> animais = new ArrayList<>();
-
-        try(BufferedReader reader= new BufferedReader(new FileReader(filePath))){
-            String linha;
-            while ((linha = reader.readLine()) != null ){
-                animais.add(linha.trim());
-            }
-        }
-        catch(FileNotFoundException e){
-             System.out.println("Arquivo não encontrado");
-        }
-        catch (IOException e){
-            System.out.println("Erro inesperado");
-        }
-
-        Random random = new Random();
-        String palavra = animais.get(random.nextInt(animais.size()));
-
-
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Character> estadoPalavra = new ArrayList<>();
-        int respostasErradas =0;
+        LeitorPalavrasArquivo leitor = new LeitorPalavrasArquivo();
 
-        for (int i = 0; i < palavra.length(); i++){
-            estadoPalavra.add('_');
+        System.out.println("**************************");
+        System.out.println("Bem-vindo ao jogo da Forca");
+        System.out.println("**************************");
 
-        }
-        System.out.println();
-        System.out.println("*******************************");
-        System.out.println("Bem vindo ao Java Jogo da forca");
-        System.out.println("*******************************");
+        //escolhe tema
+        Tema temaEscolhido = null;
+        List<String> palavraDoTema = null;
 
-        while (respostasErradas < 6){
+        //loop para escolher tema válido
+        while(temaEscolhido == null){
+            //temas disponiveis
+            Tema.listarTemas();
+            System.out.println("Digite o número do tema desejado: ");
 
-            System.out.print(getEnforcadoArt(respostasErradas));
+            if (scanner.hasNextInt()){
+                int escolha =scanner.nextInt();
+                //limpa o buffer
+                scanner.nextLine();
+                //válida a escolha
+                temaEscolhido = Tema.escolherTema(escolha);
 
-            System.out.println();
-            System.out.println("Palavra: ");
+                if (temaEscolhido !=null) {
+                    //carrega as palavras
+                    palavraDoTema = leitor.carregarPalavras(temaEscolhido);
 
-            for (char c : estadoPalavra){
-                System.out.print(c + " ");
-
-            }
-            System.out.println();
-
-            System.out.print("Adivinhe uma letra: ");
-            char chute = scanner.next().toLowerCase().charAt(0);
-
-            //verifica se o chute bate com a palavra
-            if (palavra.indexOf(chute)  >= 0){
-                System.out.print("Letra adivinhada!");
-
-                for (int i = 0; i < palavra.length(); i++){
-                    if (palavra.charAt(i) == chute){
-                        estadoPalavra.set(i, chute);
+                    if (palavraDoTema.isEmpty()){
+                        System.out.println("ERRO: Arquivo vázio ou tema não encontrado: ");
+                        temaEscolhido = null;
                     }
+                } else {
+                    System.out.println("Opção inválida. Tente novamente. ");
                 }
 
-                if (!estadoPalavra.contains('_')){
-                    System.out.print(getEnforcadoArt(respostasErradas));
-                    System.out.println("PARABÉNS, VOCÊ ACERTOU A PALAVRA! ");
-                    System.out.println("A palavra era: " + palavra);
-                    break;
-                }
+            } else {
+                System.out.println("Entrada inválida. Por favor, digite um número. ");
+                scanner.nextLine();
             }
-            else {
-                respostasErradas++;
-                System.out.println("Resposta errada, tente novamente! ");
-            }
-
         }
 
-        if (respostasErradas >= 6){
-            System.out.print(getEnforcadoArt(respostasErradas));
-            System.out.print("FIM DE JOGO!");
-            System.out.print("A palavra era: " + palavra);
+        //inicio da rodada
+        // sorteia uma palavra da lista
+        String palavraSorteada = leitor.sortearPalavra(palavraDoTema);
+        // inicia rodada com palavra sorteada
+        Rodada rodada = new Rodada(palavraSorteada);
+
+        System.out.println("\nVamos começar! O tema escolhido é: " + temaEscolhido.name());
+        System.out.println("Palavra sorteado! Tente adivinhar. Boa sorte!");
+
+        //Loop do jogo
+        while (!rodada.isFimDeRodada()){
+            System.out.println(rodada.getEnforcadoArt());
+            System.out.println("Palavra: " + rodada.getPalavraVisivel());
+            System.out.print("Histórico de letras: ");
+            for (char letraTentada : rodada.getLetrasTentadas()){
+                System.out.println(letraTentada + "");
+            }
+            //pula linha
+            System.out.println();
+
+            System.out.println("Digite uma letra: ");
+            String input = scanner.nextLine().trim();
+
+            if (input.length() ==1){
+                rodada.tentarLetra(input.charAt(0));
+            } else {
+                System.out.println("Por favor, digite apenas UMA letra.");
+            }
+            System.out.println("______________________________________");
         }
 
+        //Fim do jogo
+        if (rodada.isPalavraDescoberta()){
+            System.out.println("Parabéns! Você acertou a palavra!");
+        } else {
+            System.out.println("FIM DE JOGO! VOCÊ FOI ENFORCADO!");
+        }
+        System.out.println("A palavra era: " + rodada.getPalavraSecreta());
         scanner.close();
-
     }
 
-    static String getEnforcadoArt (int respostasErradas){
 
-        return switch (respostasErradas){
-            case 0 -> """
-                     
-                     
-                     
-                      """;
-            case 1 -> """
-                       O
-                     
-                     
-                      """;
-            case 2 -> """
-                       O
-                       |
-                     
-                      """;
-            case 3 -> """
-                       O
-                      /|
-                     
-                      """;
-            case 4 -> """
-                       O
-                      /|\\
-                     
-                      """;
-            case 5 -> """
-                       O
-                      /|\\
-                      /
-                      """;
-            case 6 -> """
-                       O
-                      /|\\
-                      / \\
-                      """;
-            default -> "";
-        };
-    }
 }
