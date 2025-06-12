@@ -33,7 +33,7 @@ public class Rodada {
         }
     }
 
-    //retorna a palavra formatada para exibição com letras adivinhadas
+    //Retorna a palavra como ela deve aparecer na tela
     public String getPalavraVisivel (){
         StringBuilder sb = new  StringBuilder();
         for (Character c : estadoPalavraVisivel) {
@@ -85,7 +85,9 @@ public class Rodada {
 
     }
 
-    //processa a tentativa de uma letra
+    //processa a tentativa de uma letra, Ignora se não for letra ou se já foi tentada.
+    // revela a letra se acertar, aumenta tentativasErradas se errar.
+    // retorna true se acertou, false se errou ou foi inválida.
     public boolean tentarLetra(char letra) {
         char letraMinusc = Character.toLowerCase(letra);
 
@@ -109,6 +111,8 @@ public class Rodada {
 
     }
 
+    //Verifica fim da rodada
+
     //verifica se a palavra foi descoberta
     public boolean isPalavraDescoberta(){
         return !estadoPalavraVisivel.contains('_');
@@ -125,6 +129,8 @@ public class Rodada {
     }
 
     //getters uteis
+
+    //retrona a palavra inteira
     public String getPalavraSecreta() {
         return palavraSecreta;
     }
@@ -133,6 +139,7 @@ public class Rodada {
         return tentativasErradas;
     }
 
+    // retorna as letras que já foram tentadas
     public Set<Character> getLetrasTentadas(){
         return letrasTentadas;
     }

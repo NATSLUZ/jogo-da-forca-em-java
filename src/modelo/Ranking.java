@@ -50,7 +50,7 @@ public class Ranking {
             return;
         }
 
-        //Ordena o ranking na tela pela maior pontuação
+        //Ordena o ranking na tela pela maior pontuação/ordem decrescente
         jogadoresDoRanking.sort(Comparator.comparing(Jogador::getPontuacao).reversed());
 
         //exibe o ranking formatado

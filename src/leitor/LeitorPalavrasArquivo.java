@@ -13,6 +13,7 @@ import java.util.Random;
 public class LeitorPalavrasArquivo implements LeitorPalavras {
     private final Random random;
 
+    //cria um random para poder sortear palavra
     public LeitorPalavrasArquivo() {
         this.random = new Random();
     }
@@ -35,6 +36,8 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
                     palavrasDoTema.add(palavraLimpa);
                 }
             }
+
+        //Em casos de erros na leitura do arquivo
         } catch (FileNotFoundException e) {
             System.err.println("ERRO: Arquivo de palavras não encontrado em: " + caminhoArquivo);
             System.err.println("Verifique se o diretório 'recursos' está na raiz do projeto e se o arquivo exite");

@@ -7,7 +7,7 @@ import modelo.Rodada;
 public class JogoSolo extends JogoDaForca {
     private Jogador jogador;
 
-    //implementando preparação do jogo
+    //implementa a preparação do jogo
     @Override
     protected void prepararJogadores() {
         System.out.print("Digite o nome do jogador: ");
@@ -20,7 +20,7 @@ public class JogoSolo extends JogoDaForca {
     @Override
     protected void jogarRodadas(){
         for (int i = 1; i <= 5; i++) {
-            System.out.println("\n--- Vamos começar, RODADA " + i + "de 5 ---");
+            System.out.println("\n--- Vamos começar, RODADA " + i + " de 5 ---");
             String palavraSorteada = leitor.sortearPalavra(palavrasDoTema);
 
             //remove a palavra sorteada para não repetir
@@ -48,7 +48,7 @@ public class JogoSolo extends JogoDaForca {
                 System.out.println("\nPARABÈNS! Você acertou a palavra: " + rodada.getPalavraSecreta());
                 jogador.adicionarPonto();
             } else {
-                System.out.println("\nQUE PENA! Você foi enfocado! A palavra era:" + rodada.getPalavraSecreta());
+                System.out.println("\nQUE PENA! Você foi enfocado! A palavra era: " + rodada.getPalavraSecreta());
             }
             System.out.println("Pressione ENTER para continuar par a próxima rodada...");
             scanner.nextLine();

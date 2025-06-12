@@ -12,12 +12,13 @@ public abstract class JogoDaForca {
     protected List<String> palavrasDoTema;
     protected Tema temaEscolhido;
 
+    //Quando o jogo é iniciado instancia leitor e scanner
     public JogoDaForca () {
         this.leitor = new LeitorPalavrasArquivo();
         this.scanner = new Scanner(System.in);
     }
 
-    //Template Method
+    //Template Method - passo a passo
     public final void iniciar(){
         boasVindas();
         prepararJogadores();
@@ -43,6 +44,8 @@ public abstract class JogoDaForca {
                 int escolha = scanner.nextInt();
                 scanner.nextLine();
                 temaEscolhido = Tema.escolherTema(escolha);
+
+                //verifica se o tema escolhido é válido
                 if (temaEscolhido != null){
                     palavrasDoTema = leitor.carregarPalavras(temaEscolhido);
                     if (palavrasDoTema.isEmpty()){
