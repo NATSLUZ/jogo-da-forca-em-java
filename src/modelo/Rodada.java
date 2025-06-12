@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//gerencia a lógica de uma rodada de jogo
 public class Rodada {
 
     private final String palavraSecreta;
@@ -13,6 +14,7 @@ public class Rodada {
     private int tentativasErradas;
     private final int MAX_TENTATIVAS_ERRADAS = 6;
 
+    //constroi uma rodada com uma palavra secreta
     public Rodada(String palavra) {
         this.palavraSecreta = palavra.toLowerCase();
         this.estadoPalavraVisivel = new ArrayList<>();
@@ -31,6 +33,7 @@ public class Rodada {
         }
     }
 
+    //retorna a palavra formatada para exibição com letras adivinhadas
     public String getPalavraVisivel (){
         StringBuilder sb = new  StringBuilder();
         for (Character c : estadoPalavraVisivel) {
@@ -82,12 +85,11 @@ public class Rodada {
 
     }
 
+    //processa a tentativa de uma letra
     public boolean tentarLetra(char letra) {
         char letraMinusc = Character.toLowerCase(letra);
 
         if (!Character.isLetter(letraMinusc) || letrasTentadas.contains(letraMinusc)){
-            //se não for uma letra retorna falso
-
             return false;
         }
 
@@ -107,15 +109,17 @@ public class Rodada {
 
     }
 
-    //verifica estado do jogo
+    //verifica se a palavra foi descoberta
     public boolean isPalavraDescoberta(){
         return !estadoPalavraVisivel.contains('_');
     }
 
+    //verifica se o jogado atingiu o numero maximo de tentativas
     public boolean isEnforcado(){
         return tentativasErradas >= MAX_TENTATIVAS_ERRADAS;
     }
 
+    //verifica se o jogo terminou, se a palvra foi descoberta ou não
     public boolean isFimDeRodada() {
         return isPalavraDescoberta () || isEnforcado();
     }

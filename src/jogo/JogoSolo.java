@@ -1,13 +1,13 @@
 package jogo;
 
 import modelo.Jogador;
+import modelo.Ranking;
 import modelo.Rodada;
 
 public class JogoSolo extends JogoDaForca {
     private Jogador jogador;
 
     //implementando preparação do jogo
-
     @Override
     protected void prepararJogadores() {
         System.out.print("Digite o nome do jogador: ");
@@ -17,9 +17,10 @@ public class JogoSolo extends JogoDaForca {
     }
 
     //lógica rodadas solo
+    @Override
     protected void jogarRodadas(){
         for (int i = 1; i <= 5; i++) {
-            System.out.println("Vamos começar, RODADA " + i + "de 5");
+            System.out.println("\n--- Vamos começar, RODADA " + i + "de 5 ---");
             String palavraSorteada = leitor.sortearPalavra(palavrasDoTema);
 
             //remove a palavra sorteada para não repetir
@@ -47,7 +48,7 @@ public class JogoSolo extends JogoDaForca {
                 System.out.println("\nPARABÈNS! Você acertou a palavra: " + rodada.getPalavraSecreta());
                 jogador.adicionarPonto();
             } else {
-                System.out.println("\nQUE PENA! Voceê foi enfocado! A palavra era:" + rodada.getPalavraSecreta());
+                System.out.println("\nQUE PENA! Você foi enfocado! A palavra era:" + rodada.getPalavraSecreta());
             }
             System.out.println("Pressione ENTER para continuar par a próxima rodada...");
             scanner.nextLine();
@@ -55,13 +56,15 @@ public class JogoSolo extends JogoDaForca {
     }
 
     //finaliza o jogo solo
-
-
     @Override
     protected void finalizarSessao() {
         System.out.println("---FIM DA SESSÂO---");
-        System.out.println("Resultado Final: ");
+        System.out.println("Resultado Final:");
         System.out.println(jogador); //metodo toString
+        //Ranking solo
+        System.out.println("\nSalvando sua pontuação no ranking...");
+        Ranking ranking = new Ranking();
+        ranking.adicionarPontuacao(jogador, "ranking_solo.txt");
         System.out.println("\nObrigado por JOGAR! Até a próxima!");
 
     }

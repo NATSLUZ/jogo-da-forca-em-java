@@ -17,6 +17,7 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
         this.random = new Random();
     }
 
+    //Carrega uma lista de palavras de um arquivo de texto
     @Override
     public List<String> carregarPalavras(Tema tema) {
         List<String> palavrasDoTema = new ArrayList<>();
@@ -25,7 +26,10 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
+
+            //Lê o arquivo, linha por linha
             while ((linha = reader.readLine()) != null) {
+                //limpa a palavra de espaços em branco e converte para minusculas
                 String palavraLimpa = linha.trim().toLowerCase();
                 if (!palavraLimpa.isEmpty()) {
                     palavrasDoTema.add(palavraLimpa);
@@ -42,6 +46,7 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
 
     }
 
+    //sorteia uma palavra aleatória da lista
     public String sortearPalavra(List<String> palavras) {
         if (palavras == null || palavras.isEmpty()) {
             return null;

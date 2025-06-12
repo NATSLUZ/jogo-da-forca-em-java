@@ -13,6 +13,10 @@ public class Jogador {
         this.pontuacao++;
     }
 
+    public void setPontuacao(int pontuacao){
+        this.pontuacao = pontuacao;
+    }
+
     public String getNome(){
         return nome;
     }

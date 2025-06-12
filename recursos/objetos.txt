@@ -1,3 +1,5 @@
 cadeira
 livro
 estante
+mesa
+abajur

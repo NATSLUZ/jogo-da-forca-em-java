@@ -2,3 +2,4 @@ cachorro
 tamandua
 galinha
 tatu
+avestruz
