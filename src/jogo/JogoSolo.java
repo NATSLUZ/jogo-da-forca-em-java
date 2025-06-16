@@ -4,10 +4,16 @@ import modelo.Jogador;
 import modelo.Ranking;
 import modelo.Rodada;
 
+import java.util.Scanner;
+
 public class JogoSolo extends JogoDaForca {
     private Jogador jogador;
 
-    //implementa a preparação do jogo
+    public JogoSolo(Scanner scanner){
+        super(scanner);
+    }
+
+    // Implementa a preparação do jogo
     @Override
     protected void prepararJogadores() {
         System.out.print("Digite o nome do jogador: ");
@@ -16,26 +22,30 @@ public class JogoSolo extends JogoDaForca {
         System.out.println("Bem-Vindo, " + jogador.getNome() + "!");
     }
 
-    //lógica rodadas solo
+    // Lógica rodadas solo
     @Override
     protected void jogarRodadas(){
         for (int i = 1; i <= 5; i++) {
             System.out.println("\n--- Vamos começar, RODADA " + i + " de 5 ---");
             String palavraSorteada = leitor.sortearPalavra(palavrasDoTema);
 
-            //remove a palavra sorteada para não repetir
-            palavrasDoTema.remove(palavraSorteada);
+            if (palavraSorteada == null){
+                System.out.println("Não há mais palavras neste tema");
+                break;
+            }
 
+            // Remove a palavra sorteada para não repetir
+            palavrasDoTema.remove(palavraSorteada);
             Rodada rodada = new Rodada(palavraSorteada);
 
-            //Loop de uma rodada
+            // Loop de uma rodada
             while (!rodada.isFimDeRodada()){
                 System.out.println("--- RODADA " + i + " de 5 ---");
                 System.out.println("Jogador: " + jogador.getNome() + " | Pontuação: " + jogador.getPontuacao());
                 System.out.println(rodada.getEnforcadoArt());
                 System.out.println("Palavra: " + rodada.getPalavraVisivel());
                 System.out.print("Histórico de letras ");
-                rodada.getLetrasTentadas().forEach(letra -> System.out.print(letra + ""));
+                rodada.getLetrasTentadas().forEach(letra -> System.out.print(letra + " "));
                 System.out.print("\n\nDigite uma letra: ");
                 String input = scanner.nextLine().trim();
                 if (input.length() ==1 ){
@@ -43,7 +53,7 @@ public class JogoSolo extends JogoDaForca {
                 }
             }
 
-            //Fim da rodada, vereficar pontuação
+            // Fim da rodada, vereficar pontuação
             if (rodada.isPalavraDescoberta()){
                 System.out.println("\nPARABÈNS! Você acertou a palavra: " + rodada.getPalavraSecreta());
                 jogador.adicionarPonto();
@@ -55,12 +65,13 @@ public class JogoSolo extends JogoDaForca {
         }
     }
 
-    //finaliza o jogo solo
+    // Finaliza o jogo solo
     @Override
     protected void finalizarSessao() {
         System.out.println("---FIM DA SESSÂO---");
         System.out.println("Resultado Final:");
         System.out.println(jogador); //metodo toString
+
         //Ranking solo
         System.out.println("\nSalvando sua pontuação no ranking...");
         Ranking ranking = new Ranking();
@@ -68,5 +79,4 @@ public class JogoSolo extends JogoDaForca {
         System.out.println("\nObrigado por JOGAR! Até a próxima!");
 
     }
-
 }

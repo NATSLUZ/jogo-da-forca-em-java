@@ -7,36 +7,36 @@ import java.util.List;
 
 public class Ranking {
 
-    //salva a pontuação do jogado em uma arquivo
+    // Salva a pontuação do jogado em uma arquivo
     public void adicionarPontuacao(Jogador jogador, String nomeArquivo){
         try (FileWriter fileWriter = new FileWriter(nomeArquivo, true);
              PrintWriter printWriter = new PrintWriter(fileWriter)){
 
-            //"NOME, PONTUAÇÂO"
+            // "NOME, PONTUAÇÂO"
             printWriter.println(jogador.getNome() + "," + jogador.getPontuacao());
         } catch (IOException e){
             System.err.println("ERRO ao salvar no ranking: " + e.getMessage());
         }
     }
 
-    //Lê o arquivo e ordena os jogadores
+    // Lê o arquivo e ordena os jogadores
     public void exibirRanking(String nomeArquivo){
         List<Jogador> jogadoresDoRanking = new ArrayList<>();
 
-        //Ler o arquivo e carrega os jogadores para uma lista
+        // Ler o arquivo e carrega os jogadores para uma lista
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))){
             String linha;
             while ((linha = reader.readLine()) !=null) {
 
-                //separa a linha "Nome, Pontos" usando virgula
+                // Separa a linha "Nome, Pontos" usando virgula
                 String[] partes = linha.split(",");
                 if (partes.length == 2){
                     String nome = partes [0].trim();
 
-                    //Converte a parte da pontuação de texto para número
+                    // Converte a parte da pontuação de texto para número
                     int pontuacao = Integer.parseInt(partes[1].trim());
 
-                    //Cria um jogador e define sua pontuação para a lista
+                    // Cria um jogador e define sua pontuação para a lista
                     Jogador jogador = new Jogador(nome);
                     jogador.setPontuacao(pontuacao);
                     jogadoresDoRanking.add(jogador);
@@ -50,11 +50,11 @@ public class Ranking {
             return;
         }
 
-        //Ordena o ranking na tela pela maior pontuação/ordem decrescente
+        // Ordena o ranking na tela pela maior pontuação/ordem decrescente
         jogadoresDoRanking.sort(Comparator.comparing(Jogador::getPontuacao).reversed());
 
-        //exibe o ranking formatado
-        System.out.println("\n--- RANKING SOLO ---");
+        // Exibe o ranking formatado
+
         int posicao = 1;
         for (Jogador jogador : jogadoresDoRanking){
             System.out.println(posicao + "º. " + jogador.getNome() + " - " + jogador.getPontuacao() + " pontos");

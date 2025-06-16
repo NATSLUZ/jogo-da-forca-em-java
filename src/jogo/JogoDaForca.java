@@ -12,30 +12,29 @@ public abstract class JogoDaForca {
     protected List<String> palavrasDoTema;
     protected Tema temaEscolhido;
 
-    //Quando o jogo é iniciado instancia leitor e scanner
-    public JogoDaForca () {
+    // Quando o jogo é iniciado instancia leitor e scanner
+    public JogoDaForca (Scanner scanner) {
         this.leitor = new LeitorPalavrasArquivo();
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
-    //Template Method - passo a passo
+    // Template Method - passo a passo
     public final void iniciar(){
         boasVindas();
         prepararJogadores();
         escolherTema();
         jogarRodadas();
         finalizarSessao();
-        scanner.close();
     }
 
-    //Metodo concreto, igual para todas as subclasses
+    // Método concreto, igual para todas as subclasses
     protected void boasVindas(){
         System.out.println("**************************");
         System.out.println("Bem-vindo ao jogo da Forca");
         System.out.println("**************************");
     }
 
-    //Escolher tema (concreto)
+    // Escolher tema (concreto)
     protected void escolherTema(){
         while (temaEscolhido==null) {
             Tema.listarTemas();
@@ -45,7 +44,7 @@ public abstract class JogoDaForca {
                 scanner.nextLine();
                 temaEscolhido = Tema.escolherTema(escolha);
 
-                //verifica se o tema escolhido é válido
+                // Verifica se o tema escolhido é válido
                 if (temaEscolhido != null){
                     palavrasDoTema = leitor.carregarPalavras(temaEscolhido);
                     if (palavrasDoTema.isEmpty()){
@@ -62,15 +61,15 @@ public abstract class JogoDaForca {
         }
     }
 
-    //Passos abstrados:implementados pelas subclasses;
+    // Passos abstrados:implementados pelas subclasses;
 
-    //cada tipo de jogo prepara os jogadores de um jeito
+    // Cada tipo de jogo prepara os jogadores de um jeito
     protected abstract void prepararJogadores();
 
-    //cada tipo de jogo terá sua propria lógica de rodadas
+    // Cada tipo de jogo terá sua propria lógica de rodadas
     protected abstract void jogarRodadas();
 
-    //cada tipo de jogo finaliza de forma diferente
+    // Cada tipo de jogo finaliza de forma diferente
     protected abstract void finalizarSessao();
 
 

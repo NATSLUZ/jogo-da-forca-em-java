@@ -13,12 +13,12 @@ import java.util.Random;
 public class LeitorPalavrasArquivo implements LeitorPalavras {
     private final Random random;
 
-    //cria um random para poder sortear palavra
+    // Cria um random para poder sortear palavra
     public LeitorPalavrasArquivo() {
         this.random = new Random();
     }
 
-    //Carrega uma lista de palavras de um arquivo de texto
+    // Carrega uma lista de palavras de um arquivo de texto
     @Override
     public List<String> carregarPalavras(Tema tema) {
         List<String> palavrasDoTema = new ArrayList<>();
@@ -28,8 +28,9 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
         try (BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
 
-            //Lê o arquivo, linha por linha
+            // Lê o arquivo, linha por linha
             while ((linha = reader.readLine()) != null) {
+
                 //limpa a palavra de espaços em branco e converte para minusculas
                 String palavraLimpa = linha.trim().toLowerCase();
                 if (!palavraLimpa.isEmpty()) {
@@ -37,7 +38,7 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
                 }
             }
 
-        //Em casos de erros na leitura do arquivo
+        // Em casos de erros na leitura do arquivo
         } catch (FileNotFoundException e) {
             System.err.println("ERRO: Arquivo de palavras não encontrado em: " + caminhoArquivo);
             System.err.println("Verifique se o diretório 'recursos' está na raiz do projeto e se o arquivo exite");
@@ -49,7 +50,7 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
 
     }
 
-    //sorteia uma palavra aleatória da lista
+    // Sorteia uma palavra aleatória da lista
     public String sortearPalavra(List<String> palavras) {
         if (palavras == null || palavras.isEmpty()) {
             return null;

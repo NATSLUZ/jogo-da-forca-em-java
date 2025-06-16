@@ -24,7 +24,8 @@ public enum Tema {
     public static void listarTemas(){
         System.out.println("Escolha um tema:");
         for (int i = 0; i <Tema.values().length; i++){
-            System.out.println((i + 1) + ". " + Tema.values()[i].getDescricao() + " (Arquivo: " + Tema.values()[i].getNomeArquivo() + ")");
+            System.out.println((i + 1) + ". " + Tema.values()[i].getDescricao() + " (Arquivo: "
+                    + Tema.values()[i].getNomeArquivo() + ")");
         }
     }
 

@@ -3,3 +3,8 @@ lasanha
 mousse
 mingau
 feijoada
+pizza
+risotto
+churrasco
+sushi
+coxinha
