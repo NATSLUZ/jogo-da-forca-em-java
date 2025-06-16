@@ -42,7 +42,7 @@ public class MenuConsole {
                     System.out.println("\nObrigado por jogar! Até a próxima");
                     break;
                 default:
-                    System.out.println("\nOpçao inválida! Presisone ENTER para tentar novamente");
+                    System.out.println("\nOpçao inválida! Pressione ENTER para tentar novamente");
                     break;
 
             }

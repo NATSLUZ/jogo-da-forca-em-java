@@ -58,7 +58,7 @@ public class JogoSolo extends JogoDaForca {
                 System.out.println("\nPARABÈNS! Você acertou a palavra: " + rodada.getPalavraSecreta());
                 jogador.adicionarPonto();
             } else {
-                System.out.println("\nQUE PENA! Você foi enfocado! A palavra era: " + rodada.getPalavraSecreta());
+                System.out.println("\nQUE PENA! Você foi enforcado! A palavra era: " + rodada.getPalavraSecreta());
             }
             System.out.println("Pressione ENTER para continuar par a próxima rodada...");
             scanner.nextLine();
