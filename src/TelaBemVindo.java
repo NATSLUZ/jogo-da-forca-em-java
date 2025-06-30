@@ -1,43 +1,51 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+package leitor;
 
-public class TelaBemVindo extends JFrame {
-    public TelaBemVindo() {
-        setTitle("Jogo da Forca");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centraliza a janela
+import modelo.Tema;
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BorderLayout());
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-        JLabel titulo = new JLabel("Bem-vindo ao Jogo da Forca!", JLabel.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
-        painel.add(titulo, BorderLayout.NORTH);
+public class LeitorPalavrasArquivo implements LeitorPalavras {
+    private final Random random;
 
-        JLabel mensagem = new JLabel("<html><div style='text-align: center;'>Tente adivinhar a palavra escondida<br>antes de ser enforcado!</div></html>", JLabel.CENTER);
-        painel.add(mensagem, BorderLayout.CENTER);
-
-        JButton botaoIniciar = new JButton("Iniciar Jogo");
-        botaoIniciar.setFont(new Font("Arial", Font.PLAIN, 16));
-        botaoIniciar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "O jogo será iniciado...");
-                // Aqui você pode abrir a próxima tela
-            }
-        });
-
-        JPanel painelBotao = new JPanel();
-        painelBotao.add(botaoIniciar);
-        painel.add(painelBotao, BorderLayout.SOUTH);
-
-        add(painel);
-        setVisible(true);
+    public LeitorPalavrasArquivo() {
+        this.random = new Random();
     }
 
-    public static void main(String[] args) {
-        new TelaBemVindo();
+    @Override
+    public List<String> carregarPalavras(Tema tema) {
+        List<String> palavrasDoTema = new ArrayList<>();
+
+        String caminhoArquivo = "recursos/" + tema.getNomeArquivo();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String palavraLimpa = linha.trim().toLowerCase();
+                if (!palavraLimpa.isEmpty()) {
+                    palavrasDoTema.add(palavraLimpa);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("ERRO: Arquivo de palavras não encontrado em: " + caminhoArquivo);
+            System.err.println("Verifique se o diretório 'recursos' está na raiz do projeto e se o arquivo exite");
+        } catch (IOException e) {
+            System.err.println("ERRO ao ler arquvio de palavras" + caminhoArquivo);
+        }
+        return palavrasDoTema;
+
+
+    }
+
+    public String sortearPalavra(List<String> palavras) {
+        if (palavras == null || palavras.isEmpty()) {
+            return null;
+        }
+        return palavras.get(random.nextInt(palavras.size()));
     }
 }
