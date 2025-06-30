@@ -27,16 +27,23 @@ public class JogoSolo extends JogoDaForca {
     protected void jogarRodadas(){
         for (int i = 1; i <= 5; i++) {
             System.out.println("\n--- Vamos começar, RODADA " + i + " de 5 ---");
-            String palavraSorteada = leitor.sortearPalavra(palavrasDoTema);
+            String palavraSorteada = sortearPalavraDaLista();
 
             if (palavraSorteada == null){
                 System.out.println("Não há mais palavras neste tema");
                 break;
             }
+            String dica =null;
+            if (mapaDeDicas != null){
+                dica = mapaDeDicas.get(palavraSorteada);
+            }
 
-            // Remove a palavra sorteada para não repetir
-            palavrasDoTema.remove(palavraSorteada);
-            Rodada rodada = new Rodada(palavraSorteada);
+            Rodada rodada = new Rodada(palavraSorteada, dica);
+            if (rodada.getDica() != null){
+                System.out.println("================== DICA =================");
+                System.out.println(" " + rodada.getDica());
+                System.out.println("=======================================");
+            }
 
             // Loop de uma rodada
             while (!rodada.isFimDeRodada()){
@@ -55,12 +62,12 @@ public class JogoSolo extends JogoDaForca {
 
             // Fim da rodada, vereficar pontuação
             if (rodada.isPalavraDescoberta()){
-                System.out.println("\nPARABÈNS! Você acertou a palavra: " + rodada.getPalavraSecreta());
+                System.out.println("\nPARABÉNS! Você acertou a palavra: " + rodada.getPalavraSecreta());
                 jogador.adicionarPonto();
             } else {
                 System.out.println("\nQUE PENA! Você foi enforcado! A palavra era: " + rodada.getPalavraSecreta());
             }
-            System.out.println("Pressione ENTER para continuar par a próxima rodada...");
+            System.out.println("Pressione ENTER para continuar para a próxima rodada...");
             scanner.nextLine();
         }
     }

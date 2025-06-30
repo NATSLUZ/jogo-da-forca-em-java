@@ -7,16 +7,17 @@ import java.util.Set;
 
 // Gerência a lógica de uma rodada de jogo
 public class Rodada {
-
     private final String palavraSecreta;
+    private final String dica;
     private final List<Character> estadoPalavraVisivel;
     private final Set<Character> letrasTentadas;
     private int tentativasErradas;
     private final int MAX_TENTATIVAS_ERRADAS = 6;
 
     // Constroi uma rodada com uma palavra secreta
-    public Rodada(String palavra) {
+    public Rodada(String palavra, String dica) {
         this.palavraSecreta = palavra.toLowerCase();
+        this.dica = dica;
         this.estadoPalavraVisivel = new ArrayList<>();
         this.letrasTentadas = new HashSet<>();
         this.tentativasErradas = 0;
@@ -32,6 +33,10 @@ public class Rodada {
 
             }
         }
+    }
+
+    public Rodada(String palavra) {
+        this(palavra, null);
     }
 
     // Retorna a palavra como ela deve aparecer na tela
@@ -143,6 +148,11 @@ public class Rodada {
     // Retorna as letras que já foram tentadas
     public Set<Character> getLetrasTentadas(){
         return letrasTentadas;
+    }
+
+    // Retorna a dica
+    public String getDica() {
+        return dica;
     }
 
 

@@ -63,15 +63,23 @@ public class JogoMultiplayer extends JogoDaForca {
             System.out.println("\nPressione ENTER para sortear sua palavra...");
             scanner.nextLine();
 
-            String palavraSorteada = leitor.sortearPalavra(palavrasDoTema);
+            String palavraSorteada = sortearPalavraDaLista();
             if (palavraSorteada == null){
                 System.out.println("Não há mais palavras neste tema");
                 break;
             }
 
-            // Remove a palavra sorteada para não repetir
-            palavrasDoTema.remove(palavraSorteada);
-            Rodada rodada = new Rodada(palavraSorteada);
+            String dica =null;
+            if (mapaDeDicas != null){
+                dica = mapaDeDicas.get(palavraSorteada);
+            }
+
+            Rodada rodada = new Rodada(palavraSorteada, dica);
+            if (rodada.getDica() != null){
+                System.out.println("================== DICA =================");
+                System.out.println(" " + rodada.getDica());
+                System.out.println("=======================================");
+            }
 
             // Loop de uma única rodada
             while (!rodada.isFimDeRodada()){

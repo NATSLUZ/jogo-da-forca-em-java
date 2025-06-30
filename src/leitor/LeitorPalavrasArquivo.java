@@ -8,15 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class LeitorPalavrasArquivo implements LeitorPalavras {
-    private final Random random;
-
-    // Cria um random para poder sortear palavra
-    public LeitorPalavrasArquivo() {
-        this.random = new Random();
-    }
 
     // Carrega uma lista de palavras de um arquivo de texto
     @Override
@@ -50,11 +43,4 @@ public class LeitorPalavrasArquivo implements LeitorPalavras {
 
     }
 
-    // Sorteia uma palavra aleatória da lista
-    public String sortearPalavra(List<String> palavras) {
-        if (palavras == null || palavras.isEmpty()) {
-            return null;
-        }
-        return palavras.get(random.nextInt(palavras.size()));
-    }
 }

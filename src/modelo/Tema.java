@@ -3,7 +3,8 @@ package modelo;
 public enum Tema {
     COMIDAS("comidas.txt","Pratos, frutas ou legumes"),
     OBJETOS("objetos.txt","Objetos de todos os tamanhos e tipos"),
-    ANIMAIS("animais.txt","Insetos, mamíferos, animais de todos os tipos");
+    ANIMAIS("animais.txt","Insetos, mamíferos, animais de todos os tipos"),
+    DESAFIO("desafios.json","Modo Desafio");
 
     private final String nomeArquivo;
     private final String descricao;
