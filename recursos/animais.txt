@@ -3,3 +3,8 @@ tamandua
 galinha
 tatu
 avestruz
+ornitorrinco
+ariranha
+cascavel
+capivara
+lontra

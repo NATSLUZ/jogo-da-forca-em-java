@@ -1,4 +1,5 @@
 package leitor;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.FileNotFoundException;
@@ -8,8 +9,12 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Map;
 
+// Simula um leitor externo que carrega palavras e dicas de um arquivo JSON.
+// Sua interface é "incompatível" com a do jogo, necessitando de um Adapter.
 public class LeitorDeJsonExterno {
 
+   // Carrega palavras e dicas do arquivo "desafios.json".
+   // Retorna Um Mapa de palavras (chave) e dicas (valor),
     public Map<String, String> getPalavrasComDicasDoJson() {
         String nomeArquivo ="desafios.json";
         Gson gson = new Gson();

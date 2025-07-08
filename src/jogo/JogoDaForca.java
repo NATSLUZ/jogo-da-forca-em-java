@@ -1,107 +1,115 @@
 package jogo;
 
-import leitor.LeitorJsonAdapter;
-import leitor.LeitorPalavrasArquivo;
-import leitor.LeitorPalavras;
-import modelo.Tema;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Map;
+import leitor.*;
+import modelo.*;
 
+import java.util.*;
+
+
+ // CLASSE ABSTRATA: Define o contrato e o estado de uma sessão de jogo.
 
 public abstract class JogoDaForca {
-    protected LeitorPalavras leitor;
-    protected Scanner scanner;
-    protected List<String> palavrasDoTema;
+
+    protected List<Jogador> jogadores;
     protected Tema temaEscolhido;
-    protected Random random;
+    protected List<String> palavrasDoTema;
     protected Map<String, String> mapaDeDicas;
+    protected int rodadasJogadas;
+    private final Random random = new Random();
 
-    // Quando o jogo é iniciado instancia leitor e scanner
-    public JogoDaForca (Scanner scanner) {
-        this.scanner = scanner;
-        this.random = new Random();
+    // O construtor é compartilhado por todas as subclasses.
+    public JogoDaForca() {
+        this.jogadores = new ArrayList<>();
     }
 
-    // Template Method - passo a passo
-    public final void iniciar(){
-        boasVindas();
-        prepararJogadores();
-        escolherTema();
-        jogarRodadas();
-        finalizarSessao();
-    }
 
-    // Método concreto, igual para todas as subclasses
-    protected void boasVindas(){
-        System.out.println("**************************");
-        System.out.println("Bem-vindo ao jogo da Forca");
-        System.out.println("**************************");
-    }
+     // MÉTODOS CONCRETOS: Lógica implementada pela SUPERCLASSE.
 
-    // Escolher tema (concreto)
-    protected void escolherTema(){
-        while (temaEscolhido==null) {
-            Tema.listarTemas();
-            System.out.print("Digite o número do tema desejado: ");
-            if (scanner.hasNextInt()){
-                int escolha = scanner.nextInt();
-                scanner.nextLine();
-                temaEscolhido = Tema.escolherTema(escolha);
 
-                // Lógica de decisão do ADAPTER
-                if (temaEscolhido != null){
-                    if (temaEscolhido == Tema.DESAFIO) {
-                        LeitorJsonAdapter adapter = new LeitorJsonAdapter();
-                        this.leitor = adapter;
-                        this.mapaDeDicas = adapter.getMapaDeDicas();
-                        System.out.println("\n[MODO DESAFIO ATIVADO! PALAVRAS ESPECIAIS CARREGADAS.]");
-                    } else {
-                        this.leitor = new LeitorPalavrasArquivo();
-                        this.mapaDeDicas = null;
-                    }
+    // PASSO CONCRETO 1: Preparar a sessão de jogo, escolher o leitor correto (Normal ou Adapter)
+    //e carrega a lista de palavras e o mapa de dicas, dependendo do tema.
 
-                    palavrasDoTema = leitor.carregarPalavras(temaEscolhido);
 
-                    if (palavrasDoTema.isEmpty()){
-                        System.err.println("ERRO: Arquivo vázio ou tema não encontrado: ");
-                        temaEscolhido = null;
-                    }
-                } else {
-                    System.out.println("Opção inválida, tente novamente.");
-                }
-            } else {
-                System.out.println("Entrada inválida. Por favor, digite um número. ");
-                scanner.nextLine();
-            }
+    public void prepararSessao(Tema tema) {
+        this.temaEscolhido = tema;
+        this.rodadasJogadas = 0;
+
+        LeitorPalavras leitor;
+        if (tema == Tema.DESAFIO) {
+            LeitorJsonAdapter adapter = new LeitorJsonAdapter();
+            leitor = adapter;
+            this.mapaDeDicas = adapter.getMapaDeDicas();
+        } else {
+            leitor = new LeitorPalavrasArquivo();
+            this.mapaDeDicas = null;
         }
+        this.palavrasDoTema = leitor.carregarPalavras(tema);
+    }
+
+    public List<Jogador> getJogadores() {
+        return this.jogadores;
     }
 
 
+     // PASSO CONCRETO 2: Sorteia uma palavra da lista, e remove da lista, cria um obj Rodada para ser usado.
+     // Remove-a para não repetir, e cria um novo objeto Rodada pronto para ser usado.
+     // Retorna um novo obj Rodada, ou null se as palavras acabaram.
 
-    protected String sortearPalavraDaLista() {
+    protected Rodada criarProximaRodada() {
         if (palavrasDoTema == null || palavrasDoTema.isEmpty()) {
             return null;
         }
-        // Sorteia um índice aleatório da lista de palavras do tema
         int indiceSorteado = random.nextInt(palavrasDoTema.size());
-        // Pega a palavra nesse índice
         String palavraSorteada = palavrasDoTema.get(indiceSorteado);
-        // Remove a palavra da lista para não ser sorteada novamente na mesma sessão
-        palavrasDoTema.remove(palavraSorteada);
-        return palavraSorteada;
+        palavrasDoTema.remove(indiceSorteado);
+
+        String dica = (mapaDeDicas != null) ? mapaDeDicas.get(palavraSorteada) : null;
+
+        this.rodadasJogadas++;
+        return new Rodada(palavraSorteada, dica);
     }
 
-    // Passos abstrados:implementados pelas subclasses;
+    // PASSO CONCRETO 3: Prepara e retorna a próxima rodada do jogo.
+    // Retorna O próximo objeto Rodada a ser jogado, ou null se a sessão acabou.
 
-    // Cada tipo de jogo prepara os jogadores de um jeito
-    protected abstract void prepararJogadores();
+    public Rodada proximaRodada() {
+        if (isSessaoTerminada()) {
+            return null;
+        }
+        return criarProximaRodada();
+    }
 
-    // Cada tipo de jogo terá sua propria lógica de rodadas
-    protected abstract void jogarRodadas();
 
-    // Cada tipo de jogo finaliza de forma diferente
-    protected abstract void finalizarSessao();
+    // MÉTODOS ABSTRATOS (Implementados pelas Subclasses)
+    // (JogoSolo, JogoMultiplayer).
+
+
+     // PASSO ABSTRATO 1: Define os jogadores para a sessão de jogo.
+     // A implementação varia se for 1 ou 2 jogadores.
+
+    public abstract void setJogadores(List<Jogador> jogadores);
+
+     // PASSO ABSTRATO 2: Retorna o jogador com o turno ativo.
+     // No modo solo, retorna sempre o mesmo jogador. No multiplayer, alterna.
+     // Retorna O objeto Jogador que está jogando na rodada atual.
+
+    public abstract Jogador getJogadorDaVez();
+
+     // PASSO ABSTRATO 3: Prepara e retorna a próxima rodada do jogo.
+     // A GUI (ou outro cliente) chamará este método para avançar na partida.
+     // Retorna O próximo objeto Rodada a ser jogado.
+
+
+     // PASSO ABSTRATO 4: Verifica o fim da sessão de jogo
+     // Jogo solo termina com 5 rodadas, Multiplayer com 10.
+     // Retorna true se a sessão terminou, false caso contrário.
+
+    public abstract boolean isSessaoTerminada();
+
+     // PASSO ABSTRATO 5: Realiza as ações finais da sessão.
+     // A implementação definirá como salvar no ranking e como determinar o vencedor.
+
+    public abstract void finalizarSessao();
+
 
 }
