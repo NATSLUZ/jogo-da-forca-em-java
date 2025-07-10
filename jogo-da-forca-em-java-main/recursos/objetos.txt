@@ -1,0 +1,10 @@
+cadeira
+livro
+estante
+mesa
+abajur
+escrivaninha
+nebulizador
+ampulheta
+velocimetro
+interfone
