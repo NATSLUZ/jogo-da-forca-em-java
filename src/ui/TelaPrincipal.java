@@ -1,5 +1,6 @@
 package ui;
 
+import sound.GerenciadorDeAudio;
 import jogo.JogoDaForca;
 import jogo.JogoMultiplayer;
 import jogo.JogoSolo;
@@ -23,6 +24,9 @@ public class TelaPrincipal extends JFrame {
     // Atributo para "lembrar" o tema da sessão atual
     private Tema temaAtual;
 
+    // Gerenciador de áudio
+    private final GerenciadorDeAudio gerenciadorDeAudio;
+
     // Tela principal
     public TelaPrincipal() {
         setTitle("Jogo da Forca");
@@ -30,6 +34,10 @@ public class TelaPrincipal extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+
+        // --- INICIALIZAÇÃO DA MÚSICA  ---
+        this.gerenciadorDeAudio = new GerenciadorDeAudio();
+        this.gerenciadorDeAudio.tocarMusica("recursos/audio/musica_fundo.wav");
 
         cardLayout = new CardLayout();
         painelPrincipal = new JPanel(cardLayout);
@@ -41,8 +49,22 @@ public class TelaPrincipal extends JFrame {
         painelPrincipal.add(new PainelNomesMultiplayer(this), "NOMES_MULTIPLAYER");
         painelPrincipal.add(new PainelSelecaoRanking(this), "SELECAO_RANKING");
         painelPrincipal.add(new PainelCreditos(this), "CREDITOS");
+        painelPrincipal.add(new PainelTutorial(this), "TUTORIAL");
 
         add(painelPrincipal);
+    }
+
+    // Métodos de Controle da Música
+    public void pararMusicaDeFundo() {
+        if (gerenciadorDeAudio != null) {
+            gerenciadorDeAudio.pararMusica();
+        }
+    }
+
+    public void tocarMusicaDeFundo() {
+        if (gerenciadorDeAudio != null) {
+            gerenciadorDeAudio.tocarMusica("recursos/audio/musica_fundo.wav");
+        }
     }
 
     // Inicia uma nova sessão de jogo. É chamado quando um tema é escolhido
@@ -92,7 +114,8 @@ public class TelaPrincipal extends JFrame {
         } else {
             // Caso de segurança: as palavras do tema acabaram
             jogoAtual.finalizarSessao();
-            JOptionPane.showMessageDialog(this, "Fim de Jogo! As palavras do tema acabaram.", "Fim de Sessão", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fim de Jogo! As palavras do tema acabaram.",
+                    "Fim de Sessão", JOptionPane.INFORMATION_MESSAGE);
             trocarTela("MENU");
         }
     }
