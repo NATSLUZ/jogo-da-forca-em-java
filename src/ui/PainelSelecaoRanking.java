@@ -1,25 +1,27 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.Font;
+import java.awt.*;
 
-
- // PAINEL ONDE O JOGADOR ESCOLHE QUAL RANKING QUER VER (SOLO OU MULTIPLAYER)
-public class PainelSelecaoRanking extends JPanel {
+// PAINEL ONDE O JOGADOR ESCOLHE QUAL RANKING QUER VER (SOLO OU MULTIPLAYER)
+public class PainelSelecaoRanking extends PainelComFundo {
 
     private final TelaPrincipal telaPrincipal;
 
     public PainelSelecaoRanking(TelaPrincipal telaPrincipal) {
+        super("recursos/img/fundo_ranking_selecao.png");
+
         this.telaPrincipal = telaPrincipal;
         setLayout(null);
 
         // Título
         JLabel labelTitulo = new JLabel("VER RANKING", SwingConstants.CENTER);
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 50));
+        labelTitulo.setForeground(Color.BLACK); // Cor do texto alterada para contraste
         labelTitulo.setBounds(0, 150, 1200, 60);
         add(labelTitulo);
 
-        // VISUAL DOS BOTÕES
+        // --- VISUAL DOS BOTÕES ---
 
         // Botão Ranking Solo
         JButton botaoRankingSolo = new JButton("Ranking - Modo Solo");
@@ -31,7 +33,7 @@ public class PainelSelecaoRanking extends JPanel {
         botaoRankingMulti.setBounds(500, 350, 200, 50);
         add(botaoRankingMulti);
 
-        // Botão Voltar
+        // Botão Voltar ao Menu
         JButton botaoVoltar = new JButton("Voltar ao Menu");
         botaoVoltar.setBounds(500, 420, 200, 50);
         add(botaoVoltar);

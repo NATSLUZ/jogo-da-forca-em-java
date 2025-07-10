@@ -1,0 +1,13 @@
+Barbara,2
+Lara,2
+Larainha,1
+Bia,3
+Natan,1
+Joilia,1
+Jhonatas,4
+Viuva,2
+Jair,3
+Mila,1
+Lula,4
+Mira,1
+Bravo,0

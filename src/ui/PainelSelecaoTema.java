@@ -9,29 +9,34 @@ import java.util.List;
 
 //PAINEL PARA O JOGADOR SELECIONAR O TEMA DO JOGO
 // Esta tela recebe a lista de jogadores da tela anterior.
-
-public class PainelSelecaoTema extends JPanel {
+public class PainelSelecaoTema extends PainelComFundo {
 
     private final TelaPrincipal telaPrincipal;
     private final List<Jogador> jogadores;
 
     public PainelSelecaoTema(TelaPrincipal telaPrincipal, List<Jogador> jogadores) {
+        super("recursos/img/fundo_tema.png");
+
         this.telaPrincipal = telaPrincipal;
-        this.jogadores = jogadores; // Guarda a lista de jogadores recebida
+        this.jogadores = jogadores;
         setLayout(null);
 
         // Título
-        JLabel labelTitulo = new JLabel("ESCOLHA UM TEMA");
+        JLabel labelTitulo = new JLabel("ESCOLHA UM TEMA", SwingConstants.CENTER);
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 50));
-        labelTitulo.setBounds(350, 150, 500, 50);
+        labelTitulo.setForeground(Color.BLACK); // Cor do texto alterada para bom contraste
+        labelTitulo.setBounds(0, 150, 1200, 60);
         add(labelTitulo);
 
         // --- BOTÔES ---
         // Cria botões dinamicamente para cada tema do enum tema
-        int yPos = 250; // Posição Y inicial do primeiro botão
+        int yPos = 250;
+        final int LARGURA_BOTAO = 250;
+        final int X_BOTAO = (1200 / 2) - (LARGURA_BOTAO / 2);
+
         for (Tema tema : Tema.values()) {
             JButton botaoTema = new JButton(tema.getDescricao());
-            botaoTema.setBounds(500, yPos, 200, 50);
+            botaoTema.setBounds(X_BOTAO, yPos, LARGURA_BOTAO, 50);
             add(botaoTema);
 
             // Cada botão chama o mesmo método, passando o tema correspondente

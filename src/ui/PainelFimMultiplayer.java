@@ -1,21 +1,20 @@
 package ui;
 
 import modelo.Jogador;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-
 // --- PAINEL DE RESULTADO DE PARTIDA DO MODO MULTIPLAYER  ---
-public class PainelFimMultiplayer extends JPanel {
+public class PainelFimMultiplayer extends PainelComFundo {
 
     private final TelaPrincipal telaPrincipal;
 
     public PainelFimMultiplayer(TelaPrincipal telaPrincipal, List<Jogador> jogadores) {
+        super("recursos/img/fundo_fim_multi.png");
+
         this.telaPrincipal = telaPrincipal;
         setLayout(null);
-        setBackground(new Color(230, 240, 255));
 
         // Pega os dois jogadores da lista
         Jogador jogador1 = jogadores.get(0);
@@ -33,35 +32,37 @@ public class PainelFimMultiplayer extends JPanel {
 
         // Imagem de arte da tela Fim de Jogo Multiplayer
         JLabel labelArte = new JLabel(new ImageIcon("recursos/img/fim_jogo.png"));
-        labelArte.setBounds(475, 50, 250, 250);
+        labelArte.setBounds(775, 100, 250, 250);
         add(labelArte);
 
         // Texto de Resultado
         JLabel labelVencedor = new JLabel(textoResultado, SwingConstants.CENTER);
         labelVencedor.setFont(new Font("Arial", Font.BOLD, 35));
-        labelVencedor.setBounds(0, 320, 1200, 50);
+        labelVencedor.setForeground(Color.BLACK);
+        labelVencedor.setBounds(0, 320, 600, 50);
         add(labelVencedor);
 
         // Placar Final
         String placar = jogador1.getNome() + ": " + jogador1.getPontuacao() + " pontos   vs   " + jogador2.getNome() + ": " + jogador2.getPontuacao() + " pontos";
         JLabel labelPlacar = new JLabel(placar, SwingConstants.CENTER);
         labelPlacar.setFont(new Font("Arial", Font.PLAIN, 20));
-        labelPlacar.setBounds(0, 370, 1200, 40);
+        labelPlacar.setForeground(Color.BLACK);
+        labelPlacar.setBounds(0, 370, 600, 40);
         add(labelPlacar);
 
         // --- VISUAL DOS BOTÕES ---
 
         // Botão Ver Ranking
         JButton botaoVerRanking = new JButton("Ver Ranking Multi");
-        botaoVerRanking.setBounds(380, 480, 200, 50);
+        botaoVerRanking.setBounds(90, 480, 200, 50);
         add(botaoVerRanking);
 
         // Botão Voltar ao menu
         JButton botaoVoltarMenu = new JButton("Voltar ao Menu");
-        botaoVoltarMenu.setBounds(620, 480, 200, 50);
+        botaoVoltarMenu.setBounds(310, 480, 200, 50);
         add(botaoVoltarMenu);
 
-        // --- AÇÃO DOS BOTÕES ---
+        // --- AÇÕES DOS BOTÕES ---
 
         // Botão Ver Ranking.
         botaoVerRanking.addActionListener(e -> {

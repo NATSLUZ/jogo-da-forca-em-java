@@ -27,6 +27,8 @@ public class PainelJogo extends JPanel {
         this.jogadorDaVez = jogadorDaVez;
         this.rodadaAtual = rodadaAtual;
 
+        setLayout(new BorderLayout());
+
         setLayout(null);
         setBackground(new Color(240, 248, 255));
 
@@ -138,7 +140,8 @@ public class PainelJogo extends JPanel {
         }
 
         atualizarTela();
-        JOptionPane.showMessageDialog(this, mensagemFinal, "Fim da Rodada", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, mensagemFinal, "Fim da Rodada",
+                JOptionPane.INFORMATION_MESSAGE);
         telaPrincipal.proximaRodada();
     }
 }

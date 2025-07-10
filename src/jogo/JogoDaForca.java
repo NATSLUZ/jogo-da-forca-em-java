@@ -6,8 +6,7 @@ import modelo.*;
 import java.util.*;
 
 
- // CLASSE ABSTRATA: Define o contrato e o estado de uma sessão de jogo.
-
+// CLASSE ABSTRATA: Define o contrato e o estado de uma sessão de jogo.
 public abstract class JogoDaForca {
 
     protected List<Jogador> jogadores;

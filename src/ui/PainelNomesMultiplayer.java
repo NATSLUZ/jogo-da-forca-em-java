@@ -3,7 +3,7 @@ package ui;
 import modelo.Jogador;
 
 import javax.swing.*;
-import java.awt.Font;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,47 +14,56 @@ public class PainelNomesMultiplayer extends JPanel {
 
     public PainelNomesMultiplayer(TelaPrincipal telaPrincipal) {
         this.telaPrincipal = telaPrincipal;
-        setLayout(null);
+        this.setLayout(new BorderLayout());
+
+        PainelComFundo painelDeFundo = new PainelComFundo("recursos/img/fundo_multiplayer.png");
+        painelDeFundo.setLayout(null); // O painel interno continua com layout nulo
+
 
         // Título
         JLabel labelTitulo = new JLabel("MODO MULTIPLAYER", SwingConstants.CENTER);
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 50));
+        labelTitulo.setForeground(Color.BLACK); // Cor do texto para contraste
         labelTitulo.setBounds(0, 100, 1200, 60);
-        add(labelTitulo);
+        painelDeFundo.add(labelTitulo);
 
         // Jogador 1
         JLabel labelNome1 = new JLabel("Nome do Jogador 1:");
         labelNome1.setFont(new Font("Arial", Font.PLAIN, 20));
+        labelNome1.setForeground(Color.BLACK);
         labelNome1.setBounds(500, 200, 200, 30);
-        add(labelNome1);
+        painelDeFundo.add(labelNome1);
 
         JTextField campoNome1 = new JTextField();
         campoNome1.setFont(new Font("Arial", Font.PLAIN, 20));
         campoNome1.setBounds(500, 230, 200, 40);
-        add(campoNome1);
+        painelDeFundo.add(campoNome1);
 
         // Jogador 2
         JLabel labelNome2 = new JLabel("Nome do Jogador 2:");
         labelNome2.setFont(new Font("Arial", Font.PLAIN, 20));
+        labelNome2.setForeground(Color.BLACK);
         labelNome2.setBounds(500, 290, 200, 30);
-        add(labelNome2);
+        painelDeFundo.add(labelNome2);
 
         JTextField campoNome2 = new JTextField();
         campoNome2.setFont(new Font("Arial", Font.PLAIN, 20));
         campoNome2.setBounds(500, 320, 200, 40);
-        add(campoNome2);
+        painelDeFundo.add(campoNome2);
 
         // --- VISUAL DOS BOTÕES ---
 
         // Botão Continuar
         JButton botaoContinuar = new JButton("Continuar");
         botaoContinuar.setBounds(500, 380, 200, 50);
-        add(botaoContinuar);
+        painelDeFundo.add(botaoContinuar);
 
         // Botão Voltar
         JButton botaoVoltar = new JButton("Voltar");
         botaoVoltar.setBounds(500, 440, 200, 50);
-        add(botaoVoltar);
+        painelDeFundo.add(botaoVoltar);
+
+        this.add(painelDeFundo, BorderLayout.CENTER);
 
         // --- AÇÃO DOS BOTÕES ---
 
@@ -65,7 +74,6 @@ public class PainelNomesMultiplayer extends JPanel {
 
             // Verifica se ambos os nomes foram preenchidos
             if (!nome1.trim().isEmpty() && !nome2.trim().isEmpty()) {
-                // Cria a lista com os dois jogadores
                 List<Jogador> jogadores = new ArrayList<>();
                 jogadores.add(new Jogador(nome1));
                 jogadores.add(new Jogador(nome2));

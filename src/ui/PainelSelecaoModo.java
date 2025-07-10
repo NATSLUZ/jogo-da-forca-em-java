@@ -1,8 +1,7 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.Font;
-
+import java.awt.*;
 
 // PAINEL DE SELEÇÃO DE MODO DE JOGO
 public class PainelSelecaoModo extends JPanel {
@@ -11,30 +10,38 @@ public class PainelSelecaoModo extends JPanel {
 
     public PainelSelecaoModo(TelaPrincipal telaPrincipal) {
         this.telaPrincipal = telaPrincipal;
-        setLayout(null);
+        this.setLayout(new BorderLayout());
+
+        PainelComFundo painelDeFundo = new PainelComFundo("recursos/img/fundo_selecao_modo.png");
+        painelDeFundo.setLayout(null); // O painel interno continua com layout nulo.
+
 
         // Título
         JLabel labelTitulo = new JLabel("MODOS DE JOGO", SwingConstants.CENTER);
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 50));
+        labelTitulo.setForeground(Color.BLACK); // Sugestão de cor para contrastar
         labelTitulo.setBounds(0, 150, 1200, 60);
-        add(labelTitulo);
+        painelDeFundo.add(labelTitulo);
 
         // ---VISUAL DOS BOTÕES ---
+
 
         // Botão Modo Solo
         JButton botaoSolo = new JButton("Modo Solo");
         botaoSolo.setBounds(500, 280, 200, 50);
-        add(botaoSolo);
+        painelDeFundo.add(botaoSolo);
 
         // Botão Modo Multiplayer
         JButton botaoMultiplayer = new JButton("Modo Multiplayer");
         botaoMultiplayer.setBounds(500, 350, 200, 50);
-        add(botaoMultiplayer);
+        painelDeFundo.add(botaoMultiplayer);
 
         // Botão Voltar
         JButton botaoVoltar = new JButton("Voltar");
         botaoVoltar.setBounds(500, 420, 200, 50);
-        add(botaoVoltar);
+        painelDeFundo.add(botaoVoltar);
+
+        this.add(painelDeFundo, BorderLayout.CENTER);
 
         // --- AÇÃO DOS BOTÕES ---
 
@@ -45,13 +52,11 @@ public class PainelSelecaoModo extends JPanel {
 
         // Botão Modo Solo
         botaoSolo.addActionListener(e -> {
-            // Em vez de um JOptionPane, agora trocamos para a nossa tela customizada.
             telaPrincipal.trocarTela("NOME_JOGADOR");
         });
 
         // Botão Multiplayer
         botaoMultiplayer.addActionListener(e -> {
-            // Em vez de um JOptionPane, agora trocamos para a nossa tela de inserir nomes.
             telaPrincipal.trocarTela("NOMES_MULTIPLAYER");
         });
     }
